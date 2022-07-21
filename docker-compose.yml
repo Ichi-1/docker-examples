@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+    postgres_db:
+        image: postgres:13.7-alpine
+        container_name: inventory_db
+
+        environment:
+            POSTGRES_USER: "marcus"
+            POSTGRES_PASSWORD: "marcus"
+            PGDAGA: /data/inventory_db
+        ports: 
+            - "5434:5432"
+        volumes: 
+            - inventory_db:/data/inventory_db
+        restart: always
+
+    pg_admin:
+        image: dpage/pgadmin4
+        container_name: pg_admin
+        environment: 
+            - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+            - PGADMIN_DEFAULT_PASSWORD=admin
+        ports:
+            - '5050:80'
+        restart: always
+        volumes: 
+            - pgadmin:/root/.pgadmin
+
+volumes:
+  inventory_db:
+  pgadmin:
