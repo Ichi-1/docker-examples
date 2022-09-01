@@ -58,9 +58,25 @@ services:
       - '6379:6379'
     volumes: 
       - cache:/data
+     
+   rabbitmq:
+    image: rabbitmq:3.10.7-management-alpine
+    container_name: message-broker
+    environment:
+    - RABBITMQ_DEFAULT_USER=admin
+    - RABBITMQ_DEFAULT_PASS=admin
+    hostname: rabbitmq
+    ports:
+        - 5672:5672     # AMQP protocol port
+        - 15672:15672   # HTTP management UI
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq/
+        - rabbitmq_log:/var/log/rabbitmq/
 
 volumes:
   postgres_vol:
   pgadmin_vol:
+  rabbitmq_data:
+  rabbitmq_log:
   cache:
     driver: local
